@@ -7,6 +7,7 @@
            [com.arangodb
             ArangoCollection]
            [com.arangodb.entity
+            BaseDocument
             CollectionEntity
             IndexEntity
             MultiDocumentEntity
@@ -104,6 +105,27 @@
 (defn delete-index ^String
   [^ArangoCollection coll ^String index]
   (.deleteIndex coll index))
+
+(defn get-as-string ^String
+  ([^ArangoCollection coll ^String key]
+   (get-document coll key String))
+  ([^ArangoCollection coll key ^DocumentReadOptions options]
+   (.getDocument coll key String (options/build DocumentReadOptions options))))
+
+(defn get-as-base-document
+  ([^ArangoCollection coll ^String key]
+   (get-document coll key BaseDocument))
+  ([^ArangoCollection coll key ^DocumentReadOptions options]
+   (.getDocument coll key BaseDocument (options/build DocumentReadOptions options))))
+
+(defn get-as-document
+  ([^ArangoCollection coll ^String key]
+   (let [doc (bean (get-as-base-document coll key))]
+     (-> doc
+         (dissoc :class)
+         (update :properties identity))))
+  ([^ArangoCollection coll key document-read-options]
+   (get-as-base-document coll key (options/build DocumentReadOptions document-read-options))))
 
 (defn get-document
   "
