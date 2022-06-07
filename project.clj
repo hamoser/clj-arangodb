@@ -6,6 +6,6 @@
   :source-paths ["src/clojure"]
   :java-source-paths ["src/java"]
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [com.arangodb/arangodb-java-driver "6.7.4"]
+                 [com.arangodb/arangodb-java-driver "6.17.0"]
                  [org.slf4j/slf4j-simple "1.7.30"]
-                 [cheshire "5.10.0"]])
+                 [cheshire "5.11.0"]])
